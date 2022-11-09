@@ -1,1 +1,6 @@
 #map { height: 400px; }
+
+/* Fix modal on top of leaflet attribution */
+.leaflet-bottom.leaflet-right {
+    z-index: 800 !important;
+}
