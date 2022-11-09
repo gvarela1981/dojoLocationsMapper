@@ -7,14 +7,58 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Create Location points on a Map from a web from">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+        <!-- load leaflet.js -->
         <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="crossorigin=""></script>
         <link rel="stylesheet" href="./css/main.css"/>
+        <!-- Add map to viewport -->
         <script src="./js/createMap.js"></script>
+        <!-- load dojo js and css styles-->
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css" media="screen">
+        <!-- load dojo dialog -->
+        <script src="./js/dialogForm.js"></script>
+        <link rel="stylesheet" href="./css/_dialogForm.css" media=screen/>
+
     </head>
-    <body>
+    <body class="claro">
         <div id="map"></div>
         <script>
             createMap();
         </script>
+        <button type="button" data-dojo-type="dijit/form/Button" data-dojo-props="onClick:showDialog">Agregar POI</button>
+
+        <!-- Modal dialogForm  -->
+        <div class="dijitHidden">
+            <div data-dojo-type="dijit/Dialog" data-dojo-props="title:'Agregar POI'" id="modal-poi">
+                <p id="form-subtitle"><strong>Agregar un POI:</strong></p>
+                <div id="form_content">
+                  <form id="poi-form" data-dojo-type="dojox/form/Manager">
+                    <p class="form-item">
+                      <label for="nombre" class="vertical-center">Nombre</label><input id="nombre" type="text" class="vertical_center">
+                    </p>
+                    <p class="form-item ">
+                      <label for="direccion" class="vertical-center">Dirección</label><input id="direccion" type="text" class="vertical_center">
+                    </p>
+                    <p class="form-item">
+                      <label for="telefono" class="vertical-center">Teléfono</label><input id="telefono" type="text" class="vertical_center">
+                    </p>
+                    <p class="form-item">
+                      <label _for="categoria" class="vertical-center">Categoría</label>
+                      <select name="select1" data-dojo-type="dijit/form/Select">
+                        <option value="COMERCIAL">Comercial</option>
+                        <option value="RESIDENCIAL" selected="selected">Residencial</option>
+                        <option value="MIXTA">Mixta</option>
+                      </select>
+                    </p>
+                    <p class="form-item">
+                      <label for="coord" class="vertical-center">Coord.</label><input id="coord" type="text" class="vertical_center">
+                    </p>
+                    <p class="form-item">
+                      <input type="submit" value="Agregar">
+                    </p>
+                  </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
