@@ -48,20 +48,32 @@ function addPOI(map, feature) {
   let currentStyle;
   L.geoJSON(feature, {
     pointToLayer(feature, latlng) {
-      if (feature.properties.categoria) {
-        switch (feature.properties.categoria) {
-          case 'Residencial':
-            currentStyle = Object.assign({}, residentialStyle);
-            break;
-          case 'Comercial':
-            currentStyle = Object.assign({}, comercialStyle);
-            break;
-          default:
-            currentStyle = Object.assign ({}, defaultStyle);
-            break;
-        }
+      if (!feature.type && feature.type != 'Feature' && feature.geometry.type != 'Point') {
+        console.log("geoJson must have a 'Feature' type attribute and geometry must have a 'Point' type attribute")
+        return false
       }
-      return L.circleMarker(latlng, currentStyle);
+      else {
+        if (feature.properties.categoria) {
+          switch (feature.properties.categoria) {
+            case 'Residencial':
+              currentStyle = Object.assign({}, residentialStyle);
+              break;
+            case 'Comercial':
+              currentStyle = Object.assign({}, comercialStyle);
+              break;
+            case 'Mixta':
+              currentStyle = Object.assign({}, mixtaStyle);
+              break;
+            default:
+              currentStyle = Object.assign ({}, defaultStyle);
+              break;
+          }
+        }
+        else {
+          currentStyle = Object.assign ({}, defaultStyle);
+        }
+        return L.circleMarker(latlng, currentStyle);
+      }
     }
   }).addTo(map);
 }
