@@ -77,3 +77,22 @@ function addPOI(map, feature) {
     }
   }).addTo(map);
 }
+
+function validateCoords(coords) {
+  // input format : <float> lon, <float> lat
+  //                -180 <= lon >= 180
+  //                -90 <= lat <= 90
+  // Example: -109.05, 41.00
+  // Output: true / false
+
+  // Do something
+  let isValid = true
+  let coords_arr = coords.split(", ");
+  // if lat is missing
+  if(coords_arr.length != 2) {
+    return false
+  }
+  if (parseFloat(coords_arr[0]) < -180 | parseFloat(coords_arr[0]) > 180 | isNaN(parseFloat(coords_arr[0]))) {isValid = false}
+  if (parseFloat(coords_arr[1]) < -90 | parseFloat(coords_arr[1]) > 90| isNaN(parseFloat(coords_arr[1]))) {isValid = false}
+  return isValid
+}
