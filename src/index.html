@@ -81,7 +81,7 @@
         </div>
 
         <!-- 
-          From behaviour 
+          Form behaviour 
           Javascript is placed in the html instead of an isolated file
           according to oficial documentation and examples
           view-source:https://dojotoolkit.org/documentation/tutorials/1.10/form_manager/demo/manager.html
@@ -120,16 +120,21 @@
               // prevent form submission
               event.preventDefault();
               event.stopPropagation();
-              //console.log("preventing default")
               let formValues = form1.gatherFormValues()
 
               coordsValid = validateCoords(formValues["coords"])
-              console.log(coordsValid)
-              // if (coordsValid) {
-              //   sasa = geoJsonSerialize(formValues)
-              // }
-              // console.log(sasa)
+              if (coordsValid) {
+                result = geoJsonSerialize(formValues)
+                if (!result) {
+                  alert('La funcionalidad no está completa, se está trabajando en eso')
+                }
+              }
+              else {
+                alert("Las coordenadas no son validas")
+              }
               
+              
+              hideDialog();
             });
           });
         </script>

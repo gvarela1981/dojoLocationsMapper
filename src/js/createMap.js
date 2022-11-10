@@ -15,7 +15,9 @@ function createMap() {
     // add a marker in the given location
     //L.marker(center).addTo(map);
 
-    addPOI(map, testCoords)
+    addPOI(map, testCoords1)
+    addPOI(map, testCoords2)
+    addPOI(map, testCoords3)
 }
 
 let residentialStyle = {
@@ -35,12 +37,28 @@ comercialStyle["fillColor"] = '#0f0'
 mixtaStyle["fillColor"] = '#f00'
 defaultStyle["fillColor"] = '#afafaf'
 
-let testCoords = {
+let testCoords1 = {
   "type": "Feature",
   "properties": {"categoria": "Residencial"},
   "geometry": {
       "type": "Point",
       "coordinates": [-58.3816, -34.60378]
+  }
+}
+let testCoords2 = {
+  "type": "Feature",
+  "properties": {"categoria": "Comercial"},
+  "geometry": {
+      "type": "Point",
+      "coordinates": [-58.3826, -34.60478]
+  }
+}
+let testCoords3 = {
+  "type": "Feature",
+  "properties": {"categoria": "Mixta"},
+  "geometry": {
+      "type": "Point",
+      "coordinates": [-58.3846, -34.60878]
   }
 }
 
@@ -95,4 +113,27 @@ function validateCoords(coords) {
   if (parseFloat(coords_arr[0]) < -180 | parseFloat(coords_arr[0]) > 180 | isNaN(parseFloat(coords_arr[0]))) {isValid = false}
   if (parseFloat(coords_arr[1]) < -90 | parseFloat(coords_arr[1]) > 90| isNaN(parseFloat(coords_arr[1]))) {isValid = false}
   return isValid
+}
+
+function geoJsonSerialize(values) {
+  // serialize an array into a geoJson
+  // input: array
+  // output: if input has a coords attribute, returns a geoJson with coords and a Point geometry
+  //         if input has no coords attribute, returns false
+  //
+  // Example input: values[[coords:54, 34][name:detroit]
+  // Example output: 
+  // {
+  //   "type": "Feature",
+  //   "properties": {"name": "detroit"},
+  //   "geometry": {
+  //       "type": "Point",
+  //       "coordinates": [54, 34]
+  // }
+  values_arr = new Array(Object.keys(values));
+  console.log(values_arr);
+  console.log(values_arr[0][0]);
+
+  // if (values.includes('coords')) {console.log("includes coords")}
+  return false
 }
