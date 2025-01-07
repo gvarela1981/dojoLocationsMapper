@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Locations Mapper</title>
+      
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Create Location points on a Map from a web from">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+        <!-- load leaflet.js -->
+        <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="crossorigin=""></script>
+        <link rel="stylesheet" href="./css/main.css"/>
+        <!-- Add map to viewport -->
+        <script src="./js/createMap.js"></script>
+        <!-- load dojo js and css styles-->
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js" data-dojo-config="async: true"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css" media="screen">
+        <!-- load dojo dialog -->
+        <script src="./js/AAAdialogForm.js"></script>
+        <link rel="stylesheet" href="./css/_dialogForm.css" media=screen/>
+
+    </head>
+    <body class="claro">
+        <div id="map"></div>
+        <script>
+            createMap();
+        </script>
+        <button onClick="showDialog();">Agregar POI</button>
+
+        <!-- Modal dialogForm  -->
+        <div class="dijitHidden">
+            <div data-dojo-type="dijit/Dialog" data-dojo-props="title:'Agregar POI'" id="modal-poi">
+                <p id="form-subtitle"><strong>Agregar un POI:</strong></p>
+                
+                  <form id="poi-form"  data-dojo-type="dojox/form/Manager" data-dojo-id="poiForm">
+                    <p class="form-item">
+                      <label for="nombre" class="vertical-center">Nombre</label><input name="nombre" id="nombre" type="text" class="vertical_center" data-dojo-observer="showValues">
+                    </p>
+                    <p class="form-item ">
+                      <label for="direccion" class="vertical-center">Dirección</label><input name="direcicon" id="direccion" type="text" class="vertical_center" data-dojo-observer="showValues">
+                    </p>
+                    <p class="form-item">
+                      <label for="telefono" class="vertical-center">Teléfono</label><input name="telefono" id="telefono" type="text" class="vertical_center" data-dojo-observer="showValues">
+                    </p>
+                    <p class="form-item">
+                      <label _for="categoria" class="vertical-center">Categoría</label>
+                      <select name="categoria" id="categoria" data-dojo-type="dijit/form/Select"  data-dojo-observer="showValues">
+                        <option value="Comercial">Comercial</option>
+                        <option value="Residencia" selected="selected">Residencial</option>
+                        <option value="Mixta">Mixta</option>
+                      </select>
+                    </p>
+                    <p class="form-item">
+                      <label for="coords" class="vertical-center">Coord.</label><input name="coords" id="coords" required="true" type="text" class="vertical_center" data-dojo-observer="showValues">
+                    </p>
+                    <p class="form-item">
+                      <input type="submit" value="Agregar" data-dojo-observer="showValues">
+                    </p>
+
+                    <!-- modalForm Dojo Methods-->
+                    <script type="dojo/on" data-dojo-event="submit">
+                      if(this.validate()){
+                          return confirm('Form is valid, press OK to submit');
+                      }else{
+                          alert('Form contains invalid data.  Please correct first');
+                          return false;
+                      }
+                      return true;
+                    </script>
+
+                    <button data-dojo-type="dijit/form/Button" type="button" onClick="console.log(poiForm.getValues())">Get Values from form!</button>
+
+                    <script type="dojo/method" data-dojo-event="showValues" data-dojo-args="value,name">
+                      let v_nombre = 'a'
+                      let v_direccion, v_telefono, v_categoria, v_coords
+                      if(name){
+                        // first time this method is called with no parameters
+                        // show the name and the value otherwise
+                        console.log("name = ", name, " value = ", value);
+                        console.log(v_nombre);
+                      }
+                    </script>
+                  </form>
+                
+            </div>
+        </div>
+
+        <!-- 
+          From behaviour 
+          Javascript is placed in the html instead of an isolated file
+          according to oficial documentation and examples
+          view-source:https://dojotoolkit.org/documentation/tutorials/1.10/form_manager/demo/manager.html
+        -->
+        <script>
+          // createDialogForm
+          // Requiere for show/hide dialog
+          require([
+          "dijit/registry",
+          "dojo/parser",
+          "dijit/Dialog",
+          "dojo/on",
+          "dojo/query",
+          "dojox/form/Manager",
+          "dijit/form/Button",
+          "dijit/form/Select",
+          "dojo/domReady!"],
+          function(registry, parser, on){
+            // render page
+            parser.parse();
+      
+            // Show the dialog
+            window.showDialog = function() {
+              registry.byId("modal-poi").show();
+            }
+            // Hide the dialog
+            window.hideDialog = function() {
+              registry.byId("modal-poi").hide();
+            }
+            // get the form widget
+            var form1 = registry.byId("poi-form");
+            window.formManager = form1;
+
+            // Stop form from making requests
+            form1.on("submit", function(event){
+              // prevent form submission
+              event.preventDefault();
+              event.stopPropagation();
+              console.log("preventing default")
+              //console.log(instanceOf(v_nombre))
+              console.log(form1.gatherFormValues([nombre, direccion, telefono, categoria, coords]))
+
+              //validateCoords(v_nombre)
+              
+            });
+          });
+        </script>
+
+    </body>
+</html>
